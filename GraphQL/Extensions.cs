@@ -41,6 +41,7 @@ public static class Extensions
             .AddTypeExtension<SubjectSubscriptions>()
         .AddType<PersonType>()
         .AddType<ScoreType>()
+        .AddType<CompanyType>()
         .AddTypeExtension<SubjectNode>()
         .AddMutationConventions()
         .AddDataLoader<SubjectByIdDataLoader>()

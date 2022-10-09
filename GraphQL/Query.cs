@@ -1,5 +1,4 @@
 using KnowCrow.GraphQL.Data;
-using KnowCrow.GraphQL.DataLoader;
 
 namespace KnowCrow.GraphQL;
 
@@ -10,4 +9,9 @@ public class Query
 
     public IQueryable<Company> GetCompanies(CrowDbContext context) =>
         context.Companies;
+
+    public Task<ICollection<Clients.Company>> GetCompaniesInformationAsync(
+        [Service] Clients.CompanyInfoService service,
+        CancellationToken cancellationToken) =>
+        service.CompaniesAllAsync(cancellationToken);
 }

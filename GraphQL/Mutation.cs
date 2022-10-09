@@ -3,7 +3,7 @@ using KnowCrow.GraphQL.Data;
 
 namespace KnowCrow.GraphQL;
 
-[Authorize(Roles = new [] {"Admin"})]
+[Authorize(Roles = new[] { "Admin" })]
 public class Mutation
 {
     [UseMutationConvention]
@@ -22,6 +22,23 @@ public class Mutation
         };
 
         context.Companies.Add(company);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return company;
+    }
+
+    [UseMutationConvention]
+    [Error(typeof(ArgumentException))]
+    public async Task<Company> RemoveCompanyAsync(
+        int id,
+        [ScopedService] CrowDbContext context,
+        CancellationToken cancellationToken)
+    {
+        var company = await context.Companies.FindAsync(new object[] { id }, cancellationToken: cancellationToken);
+        if (company is null)
+            throw new ArgumentException($"Could not find a matching company for id {id}");
+
+        context.Companies.Remove(company);
         await context.SaveChangesAsync(cancellationToken);
 
         return company;

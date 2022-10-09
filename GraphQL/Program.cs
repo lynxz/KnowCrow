@@ -1,4 +1,5 @@
 using KnowCrow.GraphQL;
+using KnowCrow.GraphQL.Clients;
 using KnowCrow.GraphQL.Data;
 using KnowCrow.GraphQL.Security;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPooledDbContextFactory<CrowDbContext>(options => options.UseSqlite("Data Source=knowcrow.db"));
+
+builder.Services.AddHttpClient<CompanyInfoService>();
 
 builder.Services.AddGraphQLService();
 
