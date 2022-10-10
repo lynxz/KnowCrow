@@ -24,7 +24,7 @@ public class Subject
     public string? Description { get; set; }
 
     /// <summary>
-    /// 
+    /// Relevant people.
     /// </summary>
     /// <value></value>
     public ICollection<Person?>? People { get; set; }

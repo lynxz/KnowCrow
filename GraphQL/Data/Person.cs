@@ -12,6 +12,12 @@ public class Person
     public int Id { get; set; }
 
     /// <summary>
+    /// ID of remote user information.
+    /// </summary>
+    /// <value></value>
+    public int UserInfoId { get; set; }
+
+    /// <summary>
     /// Name of the person
     /// </summary>
     /// <value></value>
@@ -22,20 +28,18 @@ public class Person
     /// they generally behave.
     /// </summary>
     /// <value></value>
-    public string? Description {get;set;}
+    public string? Description { get; set; }
 
     /// <summary>
     /// Different skills the person has acquired
     /// and how they rate themselves at these skills.
     /// </summary>
-    /// <typeparam name="Score"></typeparam>
-    /// <returns></returns>
+    /// <returns>All skill estimations for this individual.</returns>
     public ICollection<Score> Scores { get; set; } = new List<Score>();
 
     /// <summary>
     /// The persons work experience.
     /// </summary>
-    /// <typeparam name="WorkExperience"></typeparam>
-    /// <returns></returns>
-    public ICollection<WorkExperience> Experiences {get;set;} = new List<WorkExperience>();
+    /// <returns>All work assignments for this individual.</returns>
+    public ICollection<WorkExperience> Experiences { get; set; } = new List<WorkExperience>();
 }

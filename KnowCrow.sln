@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowCrow.GraphQL", "GraphQL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowCrow.CompanyInfo", "CompanyInfo\KnowCrow.CompanyInfo.csproj", "{E701C464-AB5A-40D5-BC23-CE8428546DBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowCrow.UserInfo", "UserInfo\KnowCrow.UserInfo.csproj", "{24D5FA62-735E-46E4-8E0A-6B83A80549F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{E701C464-AB5A-40D5-BC23-CE8428546DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E701C464-AB5A-40D5-BC23-CE8428546DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E701C464-AB5A-40D5-BC23-CE8428546DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D5FA62-735E-46E4-8E0A-6B83A80549F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D5FA62-735E-46E4-8E0A-6B83A80549F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D5FA62-735E-46E4-8E0A-6B83A80549F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D5FA62-735E-46E4-8E0A-6B83A80549F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

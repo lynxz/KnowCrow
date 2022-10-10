@@ -1,0 +1,7 @@
+extend type Query {
+  userInfo(userId:Int!): UserInformation! @delegate(path: "user(id: $arguments:userId)")
+}
+
+extend type Person {
+  personInformation: UserInformation! @delegate(path: "user(id: $fields:userInfoId)")
+}

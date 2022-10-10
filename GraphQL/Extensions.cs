@@ -46,6 +46,7 @@ public static class Extensions
         .AddMutationConventions()
         .AddDataLoader<SubjectByIdDataLoader>()
         .AddDataLoader<ScoreByIdDataLoader>()
+        .AddRemoteSchema("accounts")
         .RegisterDbContext<CrowDbContext>(kind: DbContextKind.Pooled);
 
         services.AddInMemorySubscriptions();

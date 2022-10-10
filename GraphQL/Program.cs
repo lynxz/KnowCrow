@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPooledDbContextFactory<CrowDbContext>(options => options.UseSqlite("Data Source=knowcrow.db"));
 
+builder.Services.AddHttpClient("accounts", c => c.BaseAddress = new Uri("http://localhost:5000/graphql"));
 builder.Services.AddHttpClient<CompanyInfoService>();
 
 builder.Services.AddGraphQLService();
