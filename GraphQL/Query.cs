@@ -17,6 +17,7 @@ public class Query
     /// </summary>
     /// <param name="context">Database context.</param>
     /// <returns>All companies in system</returns>
+    [UseOffsetPaging()]
     public IQueryable<Company> GetCompanies(CrowDbContext context) =>
         context.Companies;
 

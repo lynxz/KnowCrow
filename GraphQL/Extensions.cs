@@ -1,6 +1,8 @@
+using HotChocolate.Execution.Configuration;
 using KnowCrow.GraphQL.Configuration;
 using KnowCrow.GraphQL.Data;
 using KnowCrow.GraphQL.DataLoader;
+using KnowCrow.GraphQL.Diagnostics;
 using KnowCrow.GraphQL.Experiences;
 using KnowCrow.GraphQL.People;
 using KnowCrow.GraphQL.Scores;
@@ -25,9 +27,11 @@ public static class Extensions
         services.AddGraphQLServer()
         .AddAuthorization()
         .AddGlobalObjectIdentification()
+        .AddMutationConventions()
         .AddProjections()
         .AddFiltering()
         .AddSorting()
+        .AddDiagnostics()
         .AddQueryType<Query>()
             .AddTypeExtension<PersonQueries>()
             .AddTypeExtension<ScoreQueries>()
@@ -43,14 +47,47 @@ public static class Extensions
         .AddType<ScoreType>()
         .AddType<CompanyType>()
         .AddTypeExtension<SubjectNode>()
-        .AddMutationConventions()
         .AddDataLoader<SubjectByIdDataLoader>()
         .AddDataLoader<ScoreByIdDataLoader>()
-        .AddRemoteSchema("accounts")
+        //.AddRemoteSchema("accounts")
         .RegisterDbContext<CrowDbContext>(kind: DbContextKind.Pooled);
 
         services.AddInMemorySubscriptions();
 
         return services;
     }
+
+    public static IRequestExecutorBuilder UseMyPipeLine(this IRequestExecutorBuilder requestBuilder) =>
+        requestBuilder
+            .UseRequest(next => async context =>
+            {
+                Console.WriteLine($"before next: {context.Document}");
+                await next(context);
+                Console.WriteLine($"after next: {context.Result}");
+            })
+            .UseInstrumentations()
+            .UseExceptions()
+            .UseTimeout()
+            .UseDocumentCache()
+            .UseDocumentParser()
+            .UseDocumentValidation()
+            .UseOperationCache()
+            .UseOperationComplexityAnalyzer()
+            .UseOperationResolver()
+            .UseOperationVariableCoercion()
+            .UseOperationExecution();
+
+    public static IRequestExecutorBuilder AddDiagnostics(this IRequestExecutorBuilder requestBuilder) =>
+        requestBuilder
+        .AddDiagnosticEventListener<HttpRequestPerformanceEventListener>()
+        .AddDiagnosticEventListener<ExceptionPrinterExecutionEventListener>();
+
+    public static IObjectFieldDescriptor UseToUpper(this IObjectFieldDescriptor descriptor) =>
+        descriptor.Use(next => async context =>
+        {
+            await next(context);
+
+            if (context.Result is string s)
+                context.Result = s.ToUpperInvariant();
+        });
 }

@@ -1,3 +1,5 @@
+using KnowCrow.GraphQL.Attributes;
+
 namespace KnowCrow.GraphQL.Data;
 
 /// <summary>
