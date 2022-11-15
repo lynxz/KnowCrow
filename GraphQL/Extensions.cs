@@ -31,7 +31,7 @@ public static class Extensions
         .AddProjections()
         .AddFiltering()
         .AddSorting()
-        .AddDiagnostics()
+        .UseMyPipeLine()
         .AddQueryType<Query>()
             .AddTypeExtension<PersonQueries>()
             .AddTypeExtension<ScoreQueries>()
@@ -49,7 +49,10 @@ public static class Extensions
         .AddTypeExtension<SubjectNode>()
         .AddDataLoader<SubjectByIdDataLoader>()
         .AddDataLoader<ScoreByIdDataLoader>()
-        //.AddRemoteSchema("accounts")
+        .PublishSchemaDefinition(c =>
+        {
+            c.SetName("knowcrow");
+        })
         .RegisterDbContext<CrowDbContext>(kind: DbContextKind.Pooled);
 
         services.AddInMemorySubscriptions();
@@ -59,12 +62,6 @@ public static class Extensions
 
     public static IRequestExecutorBuilder UseMyPipeLine(this IRequestExecutorBuilder requestBuilder) =>
         requestBuilder
-            .UseRequest(next => async context =>
-            {
-                Console.WriteLine($"before next: {context.Document}");
-                await next(context);
-                Console.WriteLine($"after next: {context.Result}");
-            })
             .UseInstrumentations()
             .UseExceptions()
             .UseTimeout()
@@ -75,6 +72,20 @@ public static class Extensions
             .UseOperationComplexityAnalyzer()
             .UseOperationResolver()
             .UseOperationVariableCoercion()
+            .UseRequest(next => async context =>
+            {
+                Console.WriteLine($"before next: {context.Document}");
+                try
+                {
+                    await next(context);
+                }
+                catch (GraphQLException ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    throw;
+                }
+                Console.WriteLine($"after next: {context.Result}");
+            })
             .UseOperationExecution();
 
     public static IRequestExecutorBuilder AddDiagnostics(this IRequestExecutorBuilder requestBuilder) =>
